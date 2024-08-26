@@ -30,14 +30,26 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+INTERNAL_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
 ]
+
+LOCAL_APPS = [
+    "todo",
+]
+
+EXTERNAL_APPS = [
+    "rest_framework",
+    "django_bootstrap5",
+]
+
+
+INSTALLED_APPS = INTERNAL_APPS + LOCAL_APPS + EXTERNAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
