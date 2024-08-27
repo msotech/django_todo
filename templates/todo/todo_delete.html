@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% block title %}Deletar Tarefa{% endblock title %}
+{% block internaltitle %}Deletar Tarefa - "{{todo.title}}"{% endblock internaltitle %}
+
+{% block content %}
+    <!-- Delete Confirmation -->
+    {{ block.super }}
+    <style>.card-body { text-align: center !important }</style>
+    <p>
+        Você tem certeza que quer deletar a tarefa "<strong>{{ todo.title }}</strong>"?
+    </p>
+    <button type="button"
+            class="btn btn-danger"
+            onclick="deleteTodo({{ todo.id }})">
+        <i class="bi bi-trash"></i> Deletar
+    </button>
+    <a href="{% url 'home' %}" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Cancelar
+    </a>
+{% endblock content %}
+
+{% block extra_js %}
+    <script>
+            function deleteTodo(id) {
+                const url = "{% url 'todo-detail' 0 %}".replace('0', id);
+                const next_url = "{% url 'home' %}";
+
+                fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => {
+                    if (response.status === 204) {
+                        window.location.href = next_url;
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => {
+                    if (data && data.error) {
+                        alert(`Error: ${data.error}`);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+    </script>
+{% endblock extra_js %}
